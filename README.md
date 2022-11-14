@@ -6,6 +6,23 @@ Plack::Middleware::Greylist - throttle requests with different rates based on ne
 
 version v0.1.0
 
+# SYNOPSIS
+
+```perl
+use Plack::Builder;
+
+builder {
+
+  enable "Greylist",
+    default_rate => 250,
+    greylist     => {
+        '192.168.0.0/24' => 'whitelist',
+        '172.16.1.0/25'  => [ 100, 'netblock' ],
+    };
+
+}
+```
+
 # DESCRIPTION
 
 This middleware will apply rate limiting to requests, depending on the requestor netblock.
@@ -73,23 +90,6 @@ This does not need to be set except for running tests.
 
 This is a code reference to a function that increments the cache counter for a key (usually the IP address or net
 block).
-
-# SYNOPSYS
-
-```perl
-use Plack::Builder;
-
-builder {
-
-  enable "Greylist",
-    default_rate => 250,
-    greylist     => {
-        '192.168.0.0/24' => 'whitelist',
-        '172.16.1.0/25'  => [ 100, 'netblock' ],
-    };
-
-}
-```
 
 # KNOWN ISSUES
 

@@ -23,7 +23,7 @@ use Time::Seconds         qw/ ONE_MINUTE /;
 
 our $VERSION = "v0.1.0";
 
-=head1 SYNOPSYS
+=head1 SYNOPSIS
 
   use Plack::Builder;
 
