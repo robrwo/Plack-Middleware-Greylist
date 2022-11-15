@@ -16,6 +16,7 @@ recommends "Cache::FastMmap" => "0";
 recommends "Ref::Util::XS" => "0";
 
 on 'test' => sub {
+  requires "Cache::FastMmap" => "1.47";
   requires "File::Spec" => "0";
   requires "HTTP::Request::Common" => "0";
   requires "Module::Metadata" => "0";
@@ -53,5 +54,4 @@ on 'develop' => sub {
   requires "Test::Pod::LinkCheck" => "0";
   requires "Test::Portability::Files" => "0";
   requires "Test::TrailingSpace" => "0.0203";
-  requires "Test::Vars" => "0.015";
 };
