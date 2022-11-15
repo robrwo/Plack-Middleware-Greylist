@@ -1,4 +1,4 @@
-use v5.34;
+use v5.10;
 
 use Test::Most;
 

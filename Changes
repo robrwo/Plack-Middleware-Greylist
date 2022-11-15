@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Tests]
+  - Fixed minimum Perl version.
 
 v0.1.1    2022-11-15 12:36:00+00:00 Europe/London
   [Tests]

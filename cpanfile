@@ -9,7 +9,7 @@ requires "Plack::Middleware" => "0";
 requires "Ref::Util" => "0";
 requires "Time::Seconds" => "0";
 requires "parent" => "0";
-requires "perl" => "v5.34.0";
+requires "perl" => "v5.10.0";
 requires "strict" => "0";
 requires "warnings" => "0";
 recommends "Cache::FastMmap" => "0";
@@ -29,7 +29,6 @@ on 'test' => sub {
   requires "Test::Differences" => "0";
   requires "Test::More" => "0";
   requires "Test::Most" => "0";
-  requires "perl" => "v5.34.0";
 };
 
 on 'test' => sub {
