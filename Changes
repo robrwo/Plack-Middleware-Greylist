@@ -4,6 +4,9 @@ Revision history for {{$dist->name}}
   [Incompatible Changes]
   - The cache `file` has no default, and should be set by the user unless the `cache` is overridden.
 
+  [Documentation]
+  - Added note to KNOWN ISSUES about how some search engines handle HTTP 429 responses.
+
 v0.1.2    2022-11-15 14:52:21+00:00 Europe/London
   [Tests]
   - Fixed minimum Perl version.

@@ -108,6 +108,9 @@ block).
 This does not try and enforce any consistency or block overlapping netblocks.  It trusts L<Net::IP::Match::Trie> to
 handle any overlapping or conflicting network ranges, or to specify exceptions for larger blocks.
 
+Some search engine robots may not respect HTTP 429 responses, and will treat these as errors. You may want to make an
+exception for trusted networks that gives them a higher rate than the default.
+
 =cut
 
 sub prepare_app {
