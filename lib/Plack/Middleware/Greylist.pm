@@ -30,6 +30,7 @@ our $VERSION = 'v0.1.3';
   builder {
 
     enable "Greylist",
+      file         => sprintf('/run/user/%u/greylist', $>), # cache file
       default_rate => 250,
       greylist     => {
           '192.168.0.0/24' => 'whitelist',
@@ -93,9 +94,9 @@ The limit may be larger than L</default_rate>, to allow hosts to exceed the defa
 
 =attr file
 
-This is the path of the throttle count file used by the L</cache>. If omitted, a default will be set.
+This is the path of the throttle count file used by the L</cache>.
 
-This does not need to be set except for running tests.
+It is required unless you are defining your own L</cache>.
 
 =attr cache
 
@@ -118,8 +119,7 @@ sub prepare_app {
 
     unless ( $self->cache ) {
 
-        my $file = $self->file // "/tmp/greylist";
-        $self->file($file) unless $self->file;
+        my $file = $self->file // die "No cache was set";
 
         load Cache::FastMmap;
 

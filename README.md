@@ -14,6 +14,7 @@ use Plack::Builder;
 builder {
 
   enable "Greylist",
+    file         => sprintf('/run/user/%u/greylist', $>), # cache file
     default_rate => 250,
     greylist     => {
         '192.168.0.0/24' => 'whitelist',
@@ -82,9 +83,9 @@ The limit may be larger than ["default\_rate"](#default_rate), to allow hosts to
 
 ## file
 
-This is the path of the throttle count file used by the ["cache"](#cache). If omitted, a default will be set.
+This is the path of the throttle count file used by the ["cache"](#cache).
 
-This does not need to be set except for running tests.
+It is required unless you are defining your own ["cache"](#cache).
 
 ## cache
 
