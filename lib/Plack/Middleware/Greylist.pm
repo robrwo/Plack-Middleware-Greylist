@@ -167,7 +167,7 @@ sub prepare_app {
     my @blocks;
 
     if ( my $greylist = $self->greylist ) {
-        push @blocks, ( $greylist->%* );
+        push @blocks, ( %{ $greylist } );
     }
 
     $self->rules( my $rules = {} );
@@ -181,7 +181,7 @@ sub prepare_app {
         my $rule  = $line->value;
         $rule = [ split /\s+/, $rule ] unless is_plain_arrayref($rule);
 
-        my ( $rate, $type ) = $rule->@*;
+        my ( $rate, $type ) = @{ $rule };
 
         $rate //= $codes{blacklist};
         $rate = $codes{$rate} if exists $codes{$rate};
