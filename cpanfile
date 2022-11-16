@@ -24,6 +24,7 @@ on 'test' => sub {
   requires "Plack::Builder" => "0";
   requires "Plack::Middleware::ContentLength" => "0";
   requires "Plack::Middleware::Head" => "0";
+  requires "Plack::Middleware::ReverseProxy" => "0";
   requires "Plack::Response" => "0";
   requires "Plack::Test" => "0";
   requires "Test::Differences" => "0";

@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Tests]
+  - Added missing prerequisite.
 
 v0.2.1    2022-11-16 20:43:06+00:00 Europe/London
   [Bug Fixes]

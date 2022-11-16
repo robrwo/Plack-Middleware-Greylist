@@ -8,6 +8,7 @@ use Path::Tiny;
 use Plack::Builder;
 use Plack::Response;
 use Plack::Test;
+use Plack::Middleware::ReverseProxy;
 
 my $file = Path::Tiny->tempfile;
 
