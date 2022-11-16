@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+v0.2.0    2022-11-16 14:33:56+00:00 Europe/London
   [Incompatible Changes]
   - The cache `file` has no default, and should be set by the user unless the `cache` is overridden.
 
