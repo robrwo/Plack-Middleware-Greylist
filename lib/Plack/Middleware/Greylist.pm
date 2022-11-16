@@ -17,7 +17,7 @@ use List::Util   qw/ pairs /;
 use Module::Load qw/ load /;
 use Net::IP::Match::Trie;
 use Plack::Util;
-use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist /;
+use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after /;
 use Ref::Util             qw/ is_plain_arrayref /;
 use Time::Seconds         qw/ ONE_MINUTE /;
 
@@ -53,6 +53,13 @@ robots are like houseflies that repeatedly bump against closed windows.
 This is the default maximum number of hits per minute before requests are rejected, for any request not in the L</greylist>.
 
 Omitting it will disable the global rate.
+
+=attr retry_after
+
+This sets the C<Retry-After> header value, in seconds. It defaults to 61 seconds, which is the minimum allowed value.
+
+Note that this does not enforce that a client has waited that amount of time before making a new request, as long as the
+number of hits per minute is within the allowed rate.
 
 =attr greylist
 
@@ -119,6 +126,10 @@ sub prepare_app {
     $self->default_rate(-1) unless defined $self->default_rate;
 
     die "default_rate must be a positive integer" unless $self->default_rate =~ /^[1-9][0-9]*$/;
+
+    $self->retry_after( ONE_MINUTE + 1 ) unless defined $self->retry_after;
+    die "retry_after must be a positive integer greater than ${ \ONE_MINUTE} seconds"
+      unless $self->retry_after =~ /^[1-9][0-9]*$/ && $self->retry_after > ONE_MINUTE;
 
     unless ( $self->cache ) {
 
@@ -224,7 +235,7 @@ sub call {
                 return [
                     HTTP_TOO_MANY_REQUESTS,
                     [
-                        "Retry-After" => ONE_MINUTE + 1,
+                        "Retry-After" => $self->retry_after,
                     ],
                     ["Too Many Requests"]
                 ];

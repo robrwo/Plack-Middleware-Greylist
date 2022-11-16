@@ -41,6 +41,13 @@ This is the default maximum number of hits per minute before requests are reject
 
 Omitting it will disable the global rate.
 
+## retry\_after
+
+This sets the `Retry-After` header value, in seconds. It defaults to 61 seconds, which is the minimum allowed value.
+
+Note that this does not enforce that a client has waited that amount of time before making a new request, as long as the
+number of hits per minute is within the allowed rate.
+
 ## greylist
 
 This is a hash reference to the greylist configuration.
