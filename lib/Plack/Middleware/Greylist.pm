@@ -216,7 +216,8 @@ sub call {
 
         if ($limit) {
 
-            my $msg = "Rate limiting ${ip} after ${limit}/${rate}";
+            my $block = $name || "default";
+            my $msg = "Rate limiting ${ip} after ${limit}/${rate} for ${block}";
 
             if ( my $log = $env->{'psgix.logger'} ) {
                 $log->( { message => $msg, level => 'warn' } );
