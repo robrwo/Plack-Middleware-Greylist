@@ -45,7 +45,21 @@ This middleware will apply rate limiting to requests, depending on the requestor
 
 Hosts that exceed their configured per-minute request limit will be rejected with HTTP 429 errors.
 
-Rejections will be logged, which will allow you to use something like L<fail2ban> to block repeat offenders, since bad
+=head2 Log Messages
+
+Rejections will be logged with a message of the form
+
+    Rate limiting $ip after $hits/$rate for $netblock
+
+for example,
+
+    Rate limiting 172.16.0.10 after 225/250 for 172.16.0.0/24
+
+Note that the C<$netblock> for the default rate is simply "default", e.g.
+
+    Rate limiting 192.168.0.12 after 101/100 for default
+
+This will allow you to use something like L<fail2ban> to block repeat offenders, since bad
 robots are like houseflies that repeatedly bump against closed windows.
 
 =attr default_rate

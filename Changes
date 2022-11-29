@@ -6,6 +6,9 @@ Revision history for {{$dist->name}}
 
     Note that this might be an incompatible change if you are parsing the logs for fail2ban rules.
 
+  [Documentation]
+  - Document the log message.
+
 v0.2.2    2022-11-16 21:35:26+00:00 Europe/London
   [Tests]
   - Added missing prerequisite.
