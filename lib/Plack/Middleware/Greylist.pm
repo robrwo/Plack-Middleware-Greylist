@@ -124,6 +124,9 @@ It is required unless you are defining your own L</cache>.
 This is a code reference to a function that increments the cache counter for a key (usually the IP address or net
 block).
 
+If you customise this, then you need to ensure that the counter resets or expires counts after a set period of time,
+e.g. one minute.  If you use a different time interval, then you may need to adjust the L</retry_after> time.
+
 =head1 KNOWN ISSUES
 
 This does not try and enforce any consistency or block overlapping netblocks.  It trusts L<Net::IP::Match::Trie> to
