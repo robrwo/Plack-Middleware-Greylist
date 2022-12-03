@@ -13,7 +13,7 @@ use warnings;
 use parent qw( Plack::Middleware );
 
 use HTTP::Status qw/ HTTP_FORBIDDEN HTTP_TOO_MANY_REQUESTS /;
-use List::Util   qw/ pairs /;
+use List::Util   1.29 qw/ pairs /;
 use Module::Load qw/ load /;
 use Net::IP::Match::Trie;
 use Plack::Util;

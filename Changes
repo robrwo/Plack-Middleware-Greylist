@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Bux Fixes]
+  - Specify minimum version of List::Util.
+
   [Documentation]
   - Documented requirements for customising the cache attribute.
 
