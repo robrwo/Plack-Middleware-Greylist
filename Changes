@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+v0.3.1    2022-12-04 09:22:27+00:00 Europe/London
   [Bux Fixes]
   - Specify minimum version of List::Util.
 
