@@ -13,7 +13,7 @@ use warnings;
 use parent qw( Plack::Middleware );
 
 use HTTP::Status qw/ HTTP_FORBIDDEN HTTP_TOO_MANY_REQUESTS /;
-use List::Util   1.39 qw/ pairs /;
+use List::Util   1.29 qw/ pairs /;
 use Module::Load qw/ load /;
 use Net::IP::Match::Trie;
 use Plack::Util;
@@ -194,8 +194,7 @@ sub prepare_app {
 
     for my $line ( pairs @blocks ) {
 
-        my $block = $line->key;
-        my $rule  = $line->value;
+        my ( $block, $rule ) = @{$line};
         $rule = [ split /\s+/, $rule ] unless is_plain_arrayref($rule);
 
         my ( $rate, $type ) = @{ $rule };

@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Enhancements]
+  - Remove use of blessed pairs, which allows List::Util to be downgraded.
 
 v0.3.2    2022-12-06 16:10:07+00:00 Europe/London
   [Bux Fixes]
