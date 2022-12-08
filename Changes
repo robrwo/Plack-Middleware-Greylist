@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Other]
+  - Added GitHub Actions to run tests, GH#3, thanks @szabgab
 
 v0.3.4    2022-12-08 13:33:03+00:00 Europe/London
   [Other]
