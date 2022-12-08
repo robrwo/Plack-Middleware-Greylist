@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Other]
+  - Fixed typo in git repository URL, GH#2, thanks @szabgab.
 
 v0.3.3    2022-12-07 17:01:40+00:00 Europe/London
   [Enhancements]
