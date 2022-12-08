@@ -161,6 +161,10 @@ Robert Rothenberg <rrwo@cpan.org>
 The initial development of this module was sponsored by Science Photo
 Library [https://www.sciencephoto.com](https://www.sciencephoto.com).
 
+# CONTRIBUTOR
+
+Gabor Szabo <gabor@szabgab.com>
+
 # COPYRIGHT AND LICENSE
 
 This software is Copyright (c) 2022 by Robert Rothenberg.
