@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Documentation]
+  - Bumped copyright year.
+
   [Other]
   - Added GitHub Actions to run tests, GH#3, thanks @szabgab
 
