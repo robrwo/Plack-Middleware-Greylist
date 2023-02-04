@@ -2,6 +2,8 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+v0.4.0    2023-02-04 15:18:15+00:00 Europe/London (TRIAL RELEASE)
+
 v0.3.5    2023-01-10 14:47:47+00:00 Europe/London
   [Incompatible Changes]
   - Bumped minimum Perl version to v5.12.
