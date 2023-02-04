@@ -5,9 +5,7 @@ package Plack::Middleware::Greylist;
 # RECOMMEND PREREQ: Cache::FastMmap
 # RECOMMEND PREREQ: Ref::Util::XS
 
-use v5.10;
-
-use strict;
+use v5.12;
 use warnings;
 
 use parent qw( Plack::Middleware );
