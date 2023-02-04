@@ -271,6 +271,14 @@ sub call {
     return $self->app->($env);
 }
 
+=head1 SUPPORT FOR OLDER PERL VERSIONS
+
+Since v0.4.0, the this module requires Perl v5.12 or later.
+
+If you need this module on Perl v5.10, please use one of the v0.3.x
+versions of this module.  Significant bug or security fixes may be
+backported to those versions.
+
 =head1 append:AUTHOR
 
 The initial development of this module was sponsored by Science Photo
