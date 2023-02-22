@@ -230,11 +230,8 @@ sub call {
 
         my $limit = $rate == 0;
 
-        unless ($limit) {
-            my ($hits) = $self->cache->( $rule->[1] || $ip );
-
-            $limit = $hits > $rate ? $hits : 0;
-        }
+        my ($hits) = $self->cache->( $rule->[1] || $ip );
+        $limit = $hits > $rate ? $hits : 0;
 
         if ($limit) {
 
