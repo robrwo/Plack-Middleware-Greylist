@@ -130,6 +130,20 @@ e.g. one minute.  If you use a different time interval, then you may need to adj
 This does not try and enforce any consistency or block overlapping netblocks.  It trusts L<Net::IP::Match::Trie> to
 handle any overlapping or conflicting network ranges, or to specify exceptions for larger blocks.
 
+When configuring the L</greylist> netblocks from a configuration file using L<Config::General>, duplicate netblocks may
+be merged in unexpected ways, for example
+
+    10.0.0.0/16   60 group-1
+
+    ...
+
+    10.0.0.0/16  120 group-2
+
+
+may be merged as something like
+
+    '10.0.0.0/16' => [ '60 group-1', '120 group-2' ],
+
 Some search engine robots may not respect HTTP 429 responses, and will treat these as errors. You may want to make an
 exception for trusted networks that gives them a higher rate than the default.
 
