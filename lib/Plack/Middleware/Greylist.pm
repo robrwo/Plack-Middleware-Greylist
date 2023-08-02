@@ -219,12 +219,15 @@ sub prepare_app {
 
         my ( $rate, $type ) = @{ $rule };
 
-        $rate //= $codes{blacklist};
-        $rate = $codes{$rate} if exists $codes{$rate};
-
         $type //= "ip";
         my $mask = $types{$type} // $type;
         $mask = $block if $mask eq "1";
+
+        $rate //= "rejected";
+        if (exists $codes{$rate}) {
+            $mask = $rate if $mask eq "";
+            $rate = $codes{$rate};
+        }
 
         $rules->{$block} = [ $rate, $mask ];
         $match->add( $block => [$block] );
