@@ -4,6 +4,8 @@ Revision history for {{$dist->name}}
   [Enhancements]
   - Added "allowed" and "rejected" as synonyms for "whitelist" and "blacklist".
 
+  - Added "norobots" rate which rejects all requests except for "/robots.txt".
+
 v0.4.4    2023-07-03 23:44:56+01:00 Europe/London
   [Documentation]
   - Added explicit support policy for older Perl versions.

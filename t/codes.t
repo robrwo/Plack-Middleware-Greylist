@@ -15,6 +15,7 @@ my $file = Path::Tiny->tempfile;
 my %greylist = (
     "172.16.1.0/24"  => "allowed",
     "13.64.0.0/11"   => "rejected",
+    "66.249.64.0/19" => "norobots",
 );
 
 my @logs;
@@ -94,6 +95,48 @@ subtest "greylist (blocked)" => sub {
             { level => "warn", message => "Rate limiting 13.67.224.13 after 2/0 for 13.64.0.0/11" },
           ],
           "logs";
+
+      };
+
+};
+
+subtest "greylist (blocked)" => sub {
+
+    @logs = ();
+
+    test_psgi
+      app    => $handler,
+      client => sub {
+        my $cb = shift;
+
+        my $ip = "66.249.66.1";
+
+        subtest "robots.txt" => sub {
+            {
+                my $req = GET "/robots.txt", "X-Forwarded-For" => $ip;
+                my $res = $cb->($req);
+                is $res->code, HTTP_OK, "allowed";
+            }
+        };
+
+        subtest "blocked" => sub {
+
+            my $req = GET "/", "X-Forwarded-For" => $ip;
+            my $res = $cb->($req);
+            is $res->code, HTTP_FORBIDDEN, "forbidden";
+
+            # Note that this is counting the /robots.txt request
+            is_deeply \@logs, [ { level => "warn", message => "Rate limiting ${ip} after 2/0 for 66.249.64.0/19" }, ], "logs";
+
+        };
+
+        subtest "robots.txt" => sub {
+            {
+                my $req = GET "/robots.txt", "X-Forwarded-For" => $ip;
+                my $res = $cb->($req);
+                is $res->code, HTTP_OK, "allowed";
+            }
+        };
 
       };
 

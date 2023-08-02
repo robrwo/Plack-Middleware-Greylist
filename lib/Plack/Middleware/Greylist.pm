@@ -86,6 +86,10 @@ block, or "blacklist" or "rejected" to always forbid a network block.
 
 (The rate "-1" corresponds to "allowed", and the rate "0" corresponds to "rejected".)
 
+A special rate code of "norobots" will reject all requests except for F</robots.txt>, which is allowed at a rate of 60
+per minute.  This will allow you to block a robot but still allow the robot to access the robot rules that say it is
+disallowed.
+
 The tracking type defaults to "ip", which applies limits to individual ips. You can also use "netblock" to apply the
 limits to all hosts in that network block, or use a name so that limits are applied to all hosts in network blocks
 with that name.
@@ -209,7 +213,7 @@ sub prepare_app {
 
     $self->rules( my $rules = {} );
 
-    my %codes = ( whitelist => -1, allowed => -1, blacklist => 0, rejected => 0 );
+    my %codes = ( whitelist => -1, allowed => -1, blacklist => 0, rejected => 0, norobots => 0 );
     my %types = ( ip => '', netblock => 1 );
 
     for my $line ( pairs @blocks ) {
@@ -243,6 +247,13 @@ sub call {
     my $rule = $name ? $self->rules->{$name} : [ $self->default_rate ];
 
     my $rate = $rule->[0];
+
+    if ( $rate == 0 && $rule->[1] && $rule->[1] eq "norobots" ) {
+        if ( $env->{PATH_INFO} eq "/robots.txt" ) {
+            $rate = ONE_MINUTE;    # one request/second
+        }
+    }
+
     if ( $rate >= 0 ) {
 
         my $limit = $rate == 0;
