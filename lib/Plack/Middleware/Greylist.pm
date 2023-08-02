@@ -81,10 +81,10 @@ The keys are network blocks, and the values are an array reference of rates and 
 separated values can be used instead, to make it easier to directly use the configuration from something like
 L<Config::General>.)
 
-The rates are either the maximum number of requests per minute, or "whitelist" to not limit the network block, or
-"blacklist" to always forbid a network block.
+The rates are either the maximum number of requests per minute, or "whitelist" or "allowed" to not limit the network
+block, or "blacklist" or "rejected" to always forbid a network block.
 
-(The rate "-1" corresponds to "whitelist", and the rate "0" corresponds to "blacklist".)
+(The rate "-1" corresponds to "allowed", and the rate "0" corresponds to "rejected".)
 
 The tracking type defaults to "ip", which applies limits to individual ips. You can also use "netblock" to apply the
 limits to all hosts in that network block, or use a name so that limits are applied to all hosts in network blocks
@@ -209,8 +209,8 @@ sub prepare_app {
 
     $self->rules( my $rules = {} );
 
-    my %codes = ( whitelist => -1, blacklist => 0 );
-    my %types = ( ip        => '', netblock  => 1 );
+    my %codes = ( whitelist => -1, allowed => -1, blacklist => 0, rejected => 0 );
+    my %types = ( ip => '', netblock => 1 );
 
     for my $line ( pairs @blocks ) {
 
