@@ -76,10 +76,14 @@ The keys are network blocks, and the values are an array reference of rates and 
 separated values can be used instead, to make it easier to directly use the configuration from something like
 [Config::General](https://metacpan.org/pod/Config%3A%3AGeneral).)
 
-The rates are either the maximum number of requests per minute, or "whitelist" to not limit the network block, or
-"blacklist" to always forbid a network block.
+The rates are either the maximum number of requests per minute, or "whitelist" or "allowed" to not limit the network
+block, or "blacklist" or "rejected" to always forbid a network block.
 
-(The rate "-1" corresponds to "whitelist", and the rate "0" corresponds to "blacklist".)
+(The rate "-1" corresponds to "allowed", and the rate "0" corresponds to "rejected".)
+
+A special rate code of "norobots" will reject all requests except for `/robots.txt`, which is allowed at a rate of 60
+per minute.  This will allow you to block a robot but still allow the robot to access the robot rules that say it is
+disallowed.
 
 The tracking type defaults to "ip", which applies limits to individual ips. You can also use "netblock" to apply the
 limits to all hosts in that network block, or use a name so that limits are applied to all hosts in network blocks
