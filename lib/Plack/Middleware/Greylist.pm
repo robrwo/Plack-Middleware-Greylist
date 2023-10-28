@@ -300,7 +300,7 @@ sub call {
 
 This module requires Perl v5.12 or later.
 
-Future releases may only support Perl versions released in the last ten years
+Future releases may only support Perl versions released in the last ten years.
 
 =head1 append:AUTHOR
 

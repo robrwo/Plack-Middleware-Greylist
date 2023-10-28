@@ -165,7 +165,7 @@ requests. This is probably not something that you want.
 
 This module requires Perl v5.12 or later.
 
-Future releases may only support Perl versions released in the last ten years
+Future releases may only support Perl versions released in the last ten years.
 
 # SOURCE
 
