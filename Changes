@@ -7,6 +7,9 @@ Revision history for {{$dist->name}}
   [Tests]
   - Configured tests to play better with GutHub Actions.
 
+  - GitHub Actions will not run tests from before Perl v5.16, even
+    though earlier versions may be supported.
+
 v0.5.1    2023-10-28 09:04:21+01:00 Europe/London
   [Tests]
   - Migrated to Test2.
