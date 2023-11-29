@@ -4,9 +4,6 @@ Revision history for {{$dist->name}}
   [Documentation]
   - Fixed a minor typo.
 
-  [Tests]
-  - Configured tests to play better with GutHub Actions.
-
 v0.5.1    2023-10-28 09:04:21+01:00 Europe/London
   [Tests]
   - Migrated to Test2.

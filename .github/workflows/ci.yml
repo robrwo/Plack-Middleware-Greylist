@@ -61,4 +61,4 @@ jobs:
         AUTHOR_TESTING: 1
         RELEASE_TESTING: 1
       run: |
-        prove --rc .proverc
+        prove -l
