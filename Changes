@@ -5,7 +5,7 @@ Revision history for {{$dist->name}}
   - Fixed a minor typo.
 
   [Tests]
-  - Configured tests to play better with GutHub Actions.
+  - Configured tests to play better with GitHub Actions.
 
   - GitHub Actions will not run tests from before Perl v5.16, even
     though earlier versions may be supported.
