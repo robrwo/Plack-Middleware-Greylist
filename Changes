@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Toolchain]
+  - Removed use of Dist::Zilla::Plugin::Generate::ManifestSkip.
 
 v0.5.2    2023-11-29 17:42:29+00:00 Europe/London
   [Documentation]
