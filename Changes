@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Tests]
+  - Added test for subnet override behaviour.
+
   [Toolchain]
   - Removed use of Dist::Zilla::Plugin::Generate::ManifestSkip.
 
