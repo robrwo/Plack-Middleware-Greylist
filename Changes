@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Bug Fixes]
+  - Only check the `file` attribute if no `cache` is defined. (This was introduced in v0.5.5.)
+
   [Tests]
   - Removed .proverc and moved settings directly into GitHub Actions.
 

@@ -209,9 +209,6 @@ sub prepare_app {
     my $config = $self->cache_config;
     $self->cache_config($config) unless defined $config;
 
-    my $file = $self->file // die "No cache was set";
-
-    $config->{share_file} = "$file";
     $config->{init_file}                //= 0;
     $config->{unlink_on_exit}           //= !$config->{init_file};
     $config->{serializer}               //= '';
@@ -222,6 +219,9 @@ sub prepare_app {
       unless $self->retry_after =~ /^[1-9][0-9]*$/ && $self->retry_after > $expiry;
 
     unless ( $self->cache ) {
+
+      my $file = $self->file // die "No cache was set";
+      $config->{share_file} = "$file";
 
         load Cache::FastMmap;
 
