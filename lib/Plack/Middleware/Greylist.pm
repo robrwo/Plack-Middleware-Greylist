@@ -19,7 +19,7 @@ use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retr
 use Ref::Util             qw/ is_plain_arrayref /;
 use Time::Seconds         qw/ ONE_MINUTE /;
 
-our $VERSION = 'v0.5.3';
+our $VERSION = 'v0.5.4';
 
 =head1 SYNOPSIS
 

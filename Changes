@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+v0.5.3    2023-12-04 14:21:01+00:00 Europe/London (TRIAL RELEASE)
   [Enhancements]
   - Change the IP address matching module to Net::IP::LPM, which supports IPv6 (GH#6).
 
