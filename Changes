@@ -5,6 +5,8 @@ Revision history for {{$dist->name}}
   - Added `init_file` option to configure whether the cache is re-initialised on starting.
     It now defaults to false (GH#7).
 
+  - The cache file will also be deleted on exit when `init_file` is false.
+
   [Documentation]
   - Documented when `retry_after` was added.
 

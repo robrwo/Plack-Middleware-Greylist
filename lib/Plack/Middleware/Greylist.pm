@@ -192,6 +192,7 @@ sub prepare_app {
         my $cache = Cache::FastMmap->new(
             share_file  => "$file",
             init_file   => $self->init_file,
+            unlink_on_exit => !$self->init_file,
             serializer  => '',
             expire_time => ONE_MINUTE,
         );
