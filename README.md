@@ -68,6 +68,8 @@ This sets the `Retry-After` header value, in seconds. It defaults to 61 seconds,
 Note that this does not enforce that a client has waited that amount of time before making a new request, as long as the
 number of hits per minute is within the allowed rate.
 
+This option was added in v0.2.0
+
 ## greylist
 
 This is a hash reference to the greylist configuration.

@@ -5,6 +5,9 @@ Revision history for {{$dist->name}}
   - Added `init_file` option to configure whether the cache is re-initialised on starting.
     It now defaults to false (GH#7).
 
+  [Documentation]
+  - Documented when `retry_after` was added.
+
 v0.5.3    2023-12-04 14:21:01+00:00 Europe/London (TRIAL RELEASE)
   [Enhancements]
   - Change the IP address matching module to Net::IP::LPM, which supports IPv6 (GH#6).
