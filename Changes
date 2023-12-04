@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+v0.5.4    2023-12-04 15:05:41+00:00 Europe/London (TRIAL RELEASE)
   [Enhancements]
   - Added `init_file` option to configure whether the cache is re-initialised on starting.
     It now defaults to false (GH#7).
