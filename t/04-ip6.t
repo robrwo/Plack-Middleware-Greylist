@@ -40,6 +40,7 @@ my $handler = builder {
     enable "Greylist",
       default_rate => 10,
       file         => $file,
+      init_file    => 1,
       greylist     => \%greylist;
 
     sub {

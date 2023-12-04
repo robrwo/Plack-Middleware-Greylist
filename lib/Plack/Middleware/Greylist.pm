@@ -15,7 +15,7 @@ use List::Util   1.29 qw/ pairs /;
 use Module::Load qw/ load /;
 use Net::IP::LPM;
 use Plack::Util;
-use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after /;
+use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after init_file /;
 use Ref::Util             qw/ is_plain_arrayref /;
 use Time::Seconds         qw/ ONE_MINUTE /;
 
@@ -121,6 +121,13 @@ This is the path of the throttle count file used by the L</cache>.
 
 It is required unless you are defining your own L</cache>.
 
+=attr init_file
+
+This is boolean that configures whether L</file> will be re-initialised in startup. Unless you are preloading the
+application before forking, this should be false (default).
+
+This option was added in v0.5.4.
+
 =attr cache
 
 This is a code reference to a function that increments the cache counter for a key (usually the IP address or net
@@ -172,6 +179,8 @@ sub prepare_app {
     die "retry_after must be a positive integer greater than ${ \ONE_MINUTE} seconds"
       unless $self->retry_after =~ /^[1-9][0-9]*$/ && $self->retry_after > ONE_MINUTE;
 
+    $self->init_file(0) unless defined $self->init_file;
+
     unless ( $self->cache ) {
 
         my $file = $self->file // die "No cache was set";
@@ -180,7 +189,7 @@ sub prepare_app {
 
         my $cache = Cache::FastMmap->new(
             share_file  => "$file",
-            init_file   => 1,
+            init_file   => $self->init_file,
             serializer  => '',
             expire_time => ONE_MINUTE,
         );

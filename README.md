@@ -118,6 +118,13 @@ This is the path of the throttle count file used by the ["cache"](#cache).
 
 It is required unless you are defining your own ["cache"](#cache).
 
+## init\_file
+
+This is boolean that configures whether ["file"](#file) will be re-initialised in startup. Unless you are preloading the
+application before forking, this should be false (default).
+
+This option was added in v0.5.4.
+
 ## cache
 
 This is a code reference to a function that increments the cache counter for a key (usually the IP address or net

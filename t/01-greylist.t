@@ -46,6 +46,7 @@ my $handler = builder {
       default_rate => 5,
       retry_after  => 120,
       file         => $file,
+      init_file    => 1,
       greylist     => \%greylist;
 
     sub {
