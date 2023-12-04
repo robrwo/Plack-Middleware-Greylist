@@ -128,7 +128,7 @@ e.g. one minute.  If you use a different time interval, then you may need to adj
 
 # KNOWN ISSUES
 
-This does not try and enforce any consistency or block overlapping netblocks.  It trusts [Net::IP::Match::Trie](https://metacpan.org/pod/Net%3A%3AIP%3A%3AMatch%3A%3ATrie) to
+This does not try and enforce any consistency or block overlapping netblocks.  It trusts [Net::IP::LPM](https://metacpan.org/pod/Net%3A%3AIP%3A%3ALPM) to
 handle any overlapping or conflicting network ranges, or to specify exceptions for larger blocks.
 
 When configuring the ["greylist"](#greylist) netblocks from a configuration file using [Config::General](https://metacpan.org/pod/Config%3A%3AGeneral), duplicate netblocks may

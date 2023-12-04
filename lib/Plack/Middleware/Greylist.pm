@@ -13,7 +13,7 @@ use parent qw( Plack::Middleware );
 use HTTP::Status qw/ HTTP_FORBIDDEN HTTP_TOO_MANY_REQUESTS /;
 use List::Util   1.29 qw/ pairs /;
 use Module::Load qw/ load /;
-use Net::IP::Match::Trie;
+use Net::IP::LPM;
 use Plack::Util;
 use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after /;
 use Ref::Util             qw/ is_plain_arrayref /;
@@ -131,7 +131,7 @@ e.g. one minute.  If you use a different time interval, then you may need to adj
 
 =head1 KNOWN ISSUES
 
-This does not try and enforce any consistency or block overlapping netblocks.  It trusts L<Net::IP::Match::Trie> to
+This does not try and enforce any consistency or block overlapping netblocks.  It trusts L<Net::IP::LPM> to
 handle any overlapping or conflicting network ranges, or to specify exceptions for larger blocks.
 
 When configuring the L</greylist> netblocks from a configuration file using L<Config::General>, duplicate netblocks may
@@ -201,9 +201,9 @@ sub prepare_app {
 
     }
 
-    my $match = Net::IP::Match::Trie->new;
+    my $match = Net::IP::LPM->new;
 
-    $self->_match( sub { return $match->match_ip(@_) } );
+    $self->_match( sub { $match->lookup(@_) } );
 
     my @blocks;
 
@@ -234,7 +234,7 @@ sub prepare_app {
         }
 
         $rules->{$block} = [ $rate, $mask ];
-        $match->add( $block => [$block] );
+        $match->add( $block => $block );
     }
 
 }

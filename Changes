@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Enhancements]
+  - Change the IP address matching module to Net::IP::LPM, which supports IPv6 (GH#6).
+
   [Tests]
   - Added test for subnet override behaviour.
 
