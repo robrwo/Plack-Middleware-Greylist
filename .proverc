@@ -1,3 +1,0 @@
---lib
---merge
---formatter TAP::Formatter::GitHubActions

@@ -49,4 +49,4 @@ jobs:
         AUTHOR_TESTING: 1
         RELEASE_TESTING: 1
       run: |
-        prove --rc .proverc
+        prove --lib --merge --formatter TAP::Formatter::GitHubActions
