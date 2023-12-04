@@ -15,7 +15,7 @@ use List::Util   1.29 qw/ pairs /;
 use Module::Load qw/ load /;
 use Net::IP::LPM;
 use Plack::Util;
-use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after init_file /;
+use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after cache_config /;
 use Ref::Util             qw/ is_plain_arrayref /;
 use Time::Seconds         qw/ ONE_MINUTE /;
 
@@ -68,7 +68,8 @@ Omitting it will disable the global rate.
 
 =attr retry_after
 
-This sets the C<Retry-After> header value, in seconds. It defaults to 61 seconds, which is the minimum allowed value.
+This sets the C<Retry-After> header value, in seconds. It defaults to 1 + C<expiry_time> (61) seconds, which is the
+minimum allowed value.
 
 Note that this does not enforce that a client has waited that amount of time before making a new request, as long as the
 number of hits per minute is within the allowed rate.
@@ -123,12 +124,40 @@ This is the path of the throttle count file used by the L</cache>.
 
 It is required unless you are defining your own L</cache>.
 
-=attr init_file
+=attr cache_config
+
+This is a hash reference for configuring L<Cache::FastMmap>.  If it's omitted, defaults will be used.
+
+The following options can be configured:
+
+=over
+
+=item *
+
+C<init_file>
 
 This is boolean that configures whether L</file> will be re-initialised in startup. Unless you are preloading the
 application before forking, this should be false (default).
 
-This option was added in v0.5.4.
+=item *
+
+C<unlink_on_exit>
+
+This defaults the negation of C<init_file>.
+
+=item *
+
+C<expire_time>
+
+This sets the expiration time, which defaults to 60 seconds.
+
+The L</retry_after> after attribute will default to 1 + C<expiry_time>.
+
+=back
+
+Note that the L</file> attribute will be used to set the C<share_file>.
+
+This option was added in v0.5.5.
 
 =attr cache
 
@@ -177,25 +206,26 @@ sub prepare_app {
 
     die "default_rate must be a positive integer" unless $self->default_rate =~ /^[1-9][0-9]*$/;
 
-    $self->retry_after( ONE_MINUTE + 1 ) unless defined $self->retry_after;
-    die "retry_after must be a positive integer greater than ${ \ONE_MINUTE} seconds"
-      unless $self->retry_after =~ /^[1-9][0-9]*$/ && $self->retry_after > ONE_MINUTE;
+    my $config = $self->cache_config;
+    $self->cache_config($config) unless defined $config;
 
-    $self->init_file(0) unless defined $self->init_file;
+    my $file = $self->file // die "No cache was set";
+
+    $config->{share_file} = "$file";
+    $config->{init_file}                //= 0;
+    $config->{unlink_on_exit}           //= !$config->{init_file};
+    $config->{serializer}               //= '';
+    my $expiry = $config->{expire_time} //= ONE_MINUTE;
+
+    $self->retry_after( $config->{expire_time} + 1 ) unless defined $self->retry_after;
+    die "retry_after must be a positive integer greater than $expiry seconds"
+      unless $self->retry_after =~ /^[1-9][0-9]*$/ && $self->retry_after > $expiry;
 
     unless ( $self->cache ) {
 
-        my $file = $self->file // die "No cache was set";
-
         load Cache::FastMmap;
 
-        my $cache = Cache::FastMmap->new(
-            share_file  => "$file",
-            init_file   => $self->init_file,
-            unlink_on_exit => !$self->init_file,
-            serializer  => '',
-            expire_time => ONE_MINUTE,
-        );
+        my $cache = Cache::FastMmap->new( %$config );
 
         $self->cache(
             sub {

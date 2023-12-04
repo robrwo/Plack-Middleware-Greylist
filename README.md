@@ -4,7 +4,7 @@ Plack::Middleware::Greylist - throttle requests with different rates based on ne
 
 # VERSION
 
-version v0.5.4
+version v0.5.5
 
 # SYNOPSIS
 
@@ -63,7 +63,8 @@ Omitting it will disable the global rate.
 
 ## retry\_after
 
-This sets the `Retry-After` header value, in seconds. It defaults to 61 seconds, which is the minimum allowed value.
+This sets the `Retry-After` header value, in seconds. It defaults to 1 + `expiry_time` (61) seconds, which is the
+minimum allowed value.
 
 Note that this does not enforce that a client has waited that amount of time before making a new request, as long as the
 number of hits per minute is within the allowed rate.
@@ -120,12 +121,30 @@ This is the path of the throttle count file used by the ["cache"](#cache).
 
 It is required unless you are defining your own ["cache"](#cache).
 
-## init\_file
+## cache\_config
 
-This is boolean that configures whether ["file"](#file) will be re-initialised in startup. Unless you are preloading the
-application before forking, this should be false (default).
+This is a hash reference for configuring [Cache::FastMmap](https://metacpan.org/pod/Cache%3A%3AFastMmap).  If it's omitted, defaults will be used.
 
-This option was added in v0.5.4.
+The following options can be configured:
+
+- `init_file`
+
+    This is boolean that configures whether ["file"](#file) will be re-initialised in startup. Unless you are preloading the
+    application before forking, this should be false (default).
+
+- `unlink_on_exit`
+
+    This defaults the negation of `init_file`.
+
+- `expire_time`
+
+    This sets the expiration time, which defaults to 60 seconds.
+
+    The ["retry\_after"](#retry_after) after attribute will default to 1 + `expiry_time`.
+
+Note that the ["file"](#file) attribute will be used to set the `share_file`.
+
+This option was added in v0.5.5.
 
 ## cache
 
