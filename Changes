@@ -1,6 +1,26 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Enhancements]
+  - Added support for IPv6 addresses. (GH#6)
+
+  - Added `cache_config` attribute for finer-control of Cache::FastMmap.
+
+  - The `retry_after` attribute default comes from the `cache_config` `expire_time` setting.
+
+  [Bug Fixes]
+  - Use shared cache when running on a forking server that does not initialise the cache before forking (GH#7).
+
+  [Documentation]
+  - Documented when `retry_after` was added.
+
+  [Tests]
+  - Removed .proverc and moved settings directly into GitHub Actions.
+
+  - Added test for subnet override behaviour.
+
+  [Toolchain]
+  - Removed use of Dist::Zilla::Plugin::Generate::ManifestSkip.
 
 v0.5.6    2023-12-05 09:30:16+00:00 Europe/London (TRIAL RELEASE)
   [Bug Fixes]
