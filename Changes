@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+v0.6.0    2023-12-05 11:12:59+00:00 Europe/London
   [Enhancements]
   - Added support for IPv6 addresses. (GH#6)
 
