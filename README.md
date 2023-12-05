@@ -119,7 +119,7 @@ The limit may be larger than ["default\_rate"](#default_rate), to allow hosts to
 
 This is the path of the throttle count file used by the ["cache"](#cache).
 
-It is required unless you are defining your own ["cache"](#cache).
+It is required unless you are defining your own ["cache"](#cache) or you have specified a `share_file` in ["cache\_config"](#cache_config).
 
 ## cache\_config
 

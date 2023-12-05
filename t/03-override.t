@@ -39,9 +39,13 @@ my $handler = builder {
 
     enable "Greylist",
       default_rate => 5,
-      file         => $file,
-      cache_config => { init_file => 1, unlink_on_exit => 1, expire_time => 30 },
-      greylist     => \%greylist;
+      cache_config => {
+        init_file      => 1,
+        unlink_on_exit => 1,
+        expire_time    => 30,
+        share_file     => $file,
+      },
+      greylist => \%greylist;
 
     sub {
         my ($env) = @_;

@@ -122,7 +122,7 @@ The limit may be larger than L</default_rate>, to allow hosts to exceed the defa
 
 This is the path of the throttle count file used by the L</cache>.
 
-It is required unless you are defining your own L</cache>.
+It is required unless you are defining your own L</cache> or you have specified a C<share_file> in L</cache_config>.
 
 =attr cache_config
 
@@ -220,7 +220,8 @@ sub prepare_app {
 
     unless ( $self->cache ) {
 
-      my $file = $self->file // die "No cache was set";
+      my $file = $self->file // $config->{share_file};
+      die "No cache was set" unless defined $file;
       $config->{share_file} = "$file";
 
         load Cache::FastMmap;
