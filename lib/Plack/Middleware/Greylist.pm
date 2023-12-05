@@ -143,7 +143,7 @@ application before forking, this should be false (default).
 
 C<unlink_on_exit>
 
-This defaults the negation of C<init_file>.
+When true, the cache file will be deleted on exit. This defaults the negation of C<init_file>.
 
 =item *
 
@@ -151,11 +151,13 @@ C<expire_time>
 
 This sets the expiration time, which defaults to 60 seconds.
 
-The L</retry_after> after attribute will default to 1 + C<expiry_time>.
+The L</retry_after> attribute will default to 1 + C<expiry_time>.
 
 =back
 
 Note that the L</file> attribute will be used to set the C<share_file>.
+
+See L<Cache::FastMmap/new> for more information.
 
 This option was added in v0.5.5.
 

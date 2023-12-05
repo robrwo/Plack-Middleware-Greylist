@@ -134,15 +134,17 @@ The following options can be configured:
 
 - `unlink_on_exit`
 
-    This defaults the negation of `init_file`.
+    When true, the cache file will be deleted on exit. This defaults the negation of `init_file`.
 
 - `expire_time`
 
     This sets the expiration time, which defaults to 60 seconds.
 
-    The ["retry\_after"](#retry_after) after attribute will default to 1 + `expiry_time`.
+    The ["retry\_after"](#retry_after) attribute will default to 1 + `expiry_time`.
 
 Note that the ["file"](#file) attribute will be used to set the `share_file`.
+
+See ["new" in Cache::FastMmap](https://metacpan.org/pod/Cache%3A%3AFastMmap#new) for more information.
 
 This option was added in v0.5.5.
 
