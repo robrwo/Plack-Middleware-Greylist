@@ -73,6 +73,8 @@ subtest "rate limiting" => sub {
         my $res = $cb->($req);
         is $res->code, HTTP_TOO_MANY_REQUESTS, "too many requests";
 
+        is $res->header('Retry-After'), 31, "Retry-After set from expire_time";
+
         is \@logs, [ { level => "warn", message => "Rate limiting 172.16.0.10 after 6/5 for 172.16.0.0/24" } ], "logs";
 
       };
