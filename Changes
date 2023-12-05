@@ -4,6 +4,9 @@ Revision history for {{$dist->name}}
   [Bug Fixes]
   - Only check the `file` attribute if no `cache` is defined. (This was introduced in v0.5.5.)
 
+  [Documentation]
+  - Fixed typos and improved documentation of `cache_config`.
+
   [Tests]
   - Removed .proverc and moved settings directly into GitHub Actions.
 
