@@ -28,6 +28,7 @@ on 'test' => sub {
   requires "Plack::Response" => "0";
   requires "Plack::Test" => "0";
   requires "TAP::Formatter::GitHubActions" => "0";
+  requires "Test2::Tools::Compare" => "0";
   requires "Test2::V0" => "0";
   requires "Test::More" => "0";
   requires "strict" => "0";

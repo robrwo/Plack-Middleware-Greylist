@@ -15,8 +15,8 @@ use List::Util   1.29 qw/ pairs /;
 use Module::Load qw/ load /;
 use Net::IP::LPM;
 use Plack::Util;
-use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after cache_config /;
-use Ref::Util             qw/ is_plain_arrayref /;
+use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after cache_config callback /;
+use Ref::Util             qw/ is_plain_arrayref is_coderef /;
 use Time::Seconds         qw/ ONE_MINUTE /;
 
 our $VERSION = 'v0.6.1';
@@ -59,6 +59,8 @@ Note that the C<$netblock> for the default rate is simply "default", e.g.
 
 This will allow you to use something like L<fail2ban> to block repeat offenders, since bad
 robots are like houseflies that repeatedly bump against closed windows.
+
+Note, if a L</callback> is specified, then nothing will be logged, but the log message will be sent to the callback.
 
 =attr default_rate
 
@@ -168,6 +170,79 @@ block).
 
 If you customise this, then you need to ensure that the counter resets or expires counts after a set period of time,
 e.g. one minute.  If you use a different time interval, then you may need to adjust the L</retry_after> time.
+
+=attr callback
+
+This is a code reference for a function that is called when rate limits are exceeded. The function is called with a hash
+reference containing the following keys:
+
+=over
+
+=item *
+
+C<env>
+
+The L<Plack> environment.
+
+=item *
+
+C<ip>
+
+The IP address being blocked, generally C<$env->{REMOTE_ADDR}>.
+
+=item *
+
+C<hits>
+
+This is the number of hits.
+
+=item *
+
+C<rate>
+
+This is the rate limit.
+
+=item *
+
+C<block>
+
+This is the network block that the C<rate> applies to, or "default".
+
+=item *
+
+C<message>
+
+This is the message that would be logged.
+
+=back
+
+If a callback is defined, it will be used instead of logging.
+
+The callback must return a true value to indicate that the request should be blocked. Otherwise it will still be
+allowed. (Note that the hit count will still be incremented, even if the request is allowed.)
+
+A sample callback might look something like
+
+    callback => sub {
+        my ($info) = @_;
+
+        my $env = $info->{env};
+
+        my $log = $env->{'psgix.logger'};
+        $log->({
+            level   => "warn",
+            message => $info->{message},
+        });
+
+        # See Plack::Middleware::Statsd
+        my $statsd = $env->{'psgix.monitor.statsd'};
+        $statsd->increment( "myapp.psgi.greylist.blocked" );
+        $statsd->set_add( "myapp.psgi.greplist.ips", $ip );
+
+        return 1;
+    };
+
+The callback attribute was added in v0.6.1.
 
 =head1 KNOWN ISSUES
 
@@ -282,6 +357,28 @@ sub prepare_app {
         $match->add( $block => $block );
     }
 
+
+    if ( my $fn = $self->callback ) {
+        die "callback must be a code reference" unless is_coderef($fn);
+    }
+    else {
+
+        $self->callback(
+            sub {
+                my ($info) = @_;
+                my $env    = $info->{env};
+                my $msg    = $info->{message};
+                if ( my $log = $env->{'psgix.logger'} ) {
+                    $log->( { message => $msg, level => 'warn' } );
+                }
+                else {
+                    $env->{'psgi.errors'}->print($msg);
+                }
+                return 1;
+            }
+        );
+    }
+
 }
 
 sub call {
@@ -309,13 +406,18 @@ sub call {
         if ($limit) {
 
             my $block = $name || "default";
-            my $msg = "Rate limiting ${ip} after ${limit}/${rate} for ${block}";
 
-            if ( my $log = $env->{'psgix.logger'} ) {
-                $log->( { message => $msg, level => 'warn' } );
-            }
-            else {
-                $env->{'psgi.errors'}->print($msg);
+            if ( my $fn = $self->callback ) {
+                $fn->(
+                    {
+                        env     => $env,
+                        ip      => $ip,
+                        hits    => $limit,
+                        rate    => $rate,
+                        block   => $block,
+                        message => "Rate limiting ${ip} after ${limit}/${rate} for ${block}",
+                    }
+                ) or return $self->app->($env);
             }
 
             if ( $rate == 0 ) {
