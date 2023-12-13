@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+v0.7.0    2023-12-13 18:19:27+00:00 Europe/London
   [Toolchain]
   - Build rules were updated to ensure MANIFEST.SKIP is used.
 
