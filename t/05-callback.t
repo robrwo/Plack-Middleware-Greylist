@@ -74,9 +74,9 @@ subtest "rate limiting" => sub {
         }
 
         {
-          my $req = HEAD "/?ok", "X-Forwarded-For" => "172.16.0.10";
-          my $res = $cb->($req);
-          is $res->code, HTTP_OK, "request ok (callback override)";
+            my $req = HEAD "/?ok", "X-Forwarded-For" => "172.16.0.10";
+            my $res = $cb->($req);
+            is $res->code, HTTP_OK, "request ok (callback override)";
         }
 
         my $req = HEAD "/", "X-Forwarded-For" => "172.16.0.10";

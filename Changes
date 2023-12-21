@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Other]
+  - Perltidied source code.
+
   [Toolchain]
   - Added .editorconfig to the repository.
 

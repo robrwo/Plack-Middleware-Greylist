@@ -10,9 +10,9 @@ use warnings;
 
 use parent qw( Plack::Middleware );
 
-use HTTP::Status qw/ HTTP_FORBIDDEN HTTP_TOO_MANY_REQUESTS /;
-use List::Util   1.29 qw/ pairs /;
-use Module::Load qw/ load /;
+use HTTP::Status    qw/ HTTP_FORBIDDEN HTTP_TOO_MANY_REQUESTS /;
+use List::Util 1.29 qw/ pairs /;
+use Module::Load    qw/ load /;
 use Net::IP::LPM;
 use Plack::Util;
 use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after cache_config callback /;
@@ -284,7 +284,7 @@ sub prepare_app {
     die "default_rate must be a positive integer" unless $self->default_rate =~ /^[1-9][0-9]*$/;
 
     my $config = $self->cache_config;
-    $self->cache_config( $config //= { } ) unless defined $config;
+    $self->cache_config( $config //= {} ) unless defined $config;
 
     $config->{init_file}                //= 0;
     $config->{unlink_on_exit}           //= !$config->{init_file};
@@ -297,13 +297,13 @@ sub prepare_app {
 
     unless ( $self->cache ) {
 
-      my $file = $self->file // $config->{share_file};
-      die "No cache was set" unless defined $file;
-      $config->{share_file} = "$file";
+        my $file = $self->file // $config->{share_file};
+        die "No cache was set" unless defined $file;
+        $config->{share_file} = "$file";
 
         load Cache::FastMmap;
 
-        my $cache = Cache::FastMmap->new( %$config );
+        my $cache = Cache::FastMmap->new(%$config);
 
         $self->cache(
             sub {
@@ -328,7 +328,7 @@ sub prepare_app {
     my @blocks;
 
     if ( my $greylist = $self->greylist ) {
-        push @blocks, ( %{ $greylist } );
+        push @blocks, ( %{$greylist} );
     }
 
     $self->rules( my $rules = {} );
@@ -341,14 +341,14 @@ sub prepare_app {
         my ( $block, $rule ) = @{$line};
         $rule = [ split /\s+/, $rule ] unless is_plain_arrayref($rule);
 
-        my ( $rate, $type ) = @{ $rule };
+        my ( $rate, $type ) = @{$rule};
 
         $type //= "ip";
         my $mask = $types{$type} // $type;
         $mask = $block if $mask eq "1";
 
         $rate //= "rejected";
-        if (exists $codes{$rate}) {
+        if ( exists $codes{$rate} ) {
             $mask = $rate if $mask eq "";
             $rate = $codes{$rate};
         }
