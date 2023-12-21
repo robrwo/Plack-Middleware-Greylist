@@ -357,7 +357,6 @@ sub prepare_app {
         $match->add( $block => $block );
     }
 
-
     if ( my $fn = $self->callback ) {
         die "callback must be a code reference" unless is_coderef($fn);
     }
