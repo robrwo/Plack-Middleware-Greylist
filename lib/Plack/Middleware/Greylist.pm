@@ -284,7 +284,7 @@ sub prepare_app {
     die "default_rate must be a positive integer" unless $self->default_rate =~ /^[1-9][0-9]*$/;
 
     my $config = $self->cache_config;
-    $self->cache_config($config) unless defined $config;
+    $self->cache_config( $config //= { } ) unless defined $config;
 
     $config->{init_file}                //= 0;
     $config->{unlink_on_exit}           //= !$config->{init_file};

@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Bug Fixes]
+  - Fixed initialisation of the default configuration.
+
   [Tests]
   - Renamed a test script.
 
