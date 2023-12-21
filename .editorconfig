@@ -1,0 +1,14 @@
+[*]
+end_of_line = cr
+trim_trailing_whitespace = true
+
+[*.{pl,pm,t}]
+indent_style = space
+indent_size  = 4
+max_line_length = 130
+
+[*.yml]
+indent_style = space
+indent_size  = 2
+end_of_line = cr
+trim_trailing_whitespace = true
