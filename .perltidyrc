@@ -1,0 +1,2 @@
+-l=130 # max_line_length
+-i=4   # indent_size
