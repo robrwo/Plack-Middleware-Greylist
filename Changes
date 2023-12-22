@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Tests]
+  - Removed TAP::Formatter::GitHubActions from prerequisites.
+
   [Other]
   - Perltidied source code.
 
