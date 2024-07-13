@@ -15,7 +15,7 @@ use List::Util 1.29 qw/ pairs /;
 use Module::Load    qw/ load /;
 use Net::IP::LPM;
 use Plack::Util;
-use Plack::Util::Accessor qw/ default_rate rules cache file _match greylist retry_after cache_config callback /;
+use Plack::Util::Accessor qw/ default_rate rules cache file _match _add_rule greylist retry_after cache_config callback /;
 use Ref::Util             qw/ is_plain_arrayref is_coderef /;
 use Time::Seconds         qw/ ONE_MINUTE /;
 
@@ -335,28 +335,32 @@ sub prepare_app($self) {
 
     $self->rules( my $rules = {} );
 
-    my %codes = ( whitelist => -1, allowed => -1, blacklist => 0, rejected => 0, norobots => 0 );
-    my %types = ( ip => '', netblock => 1 );
+    $self->_add_rule( sub( $block, $rate, $type ) {
 
-    for my $line ( pairs @blocks ) {
-
-        my ( $block, $rule ) = $line->@*;
-        $rule = [ split /\s+/, $rule ] unless is_plain_arrayref($rule);
-
-        my ( $rate, $type ) = $rule->@*;
+        state $codes = { whitelist => -1, allowed => -1, blacklist => 0, rejected => 0, norobots => 0 };
+        state $types = { ip => '', netblock => 1 };
 
         $type //= "ip";
-        my $mask = $types{$type} // $type;
+        my $mask = $types->{$type} // $type;
         $mask = $block if $mask eq "1";
 
         $rate //= "rejected";
-        if ( exists $codes{$rate} ) {
+        if ( exists $codes->{$rate} ) {
             $mask = $rate if $mask eq "";
-            $rate = $codes{$rate};
+            $rate = $codes->{$rate};
         }
 
         $rules->{$block} = [ $rate, $mask ];
         $match->add( $block => $block );
+
+    });
+
+
+    for my $line ( pairs @blocks ) {
+        my ( $block, $rule ) = $line->@*;
+        $rule = [ split /\s+/, $rule ] unless is_plain_arrayref($rule);
+        my ( $rate, $type ) = $rule->@*;
+        $self->_add_rule->( $block, $rate, $type );
     }
 
     if ( my $fn = $self->callback ) {
@@ -382,6 +386,10 @@ sub prepare_app($self) {
 }
 
 sub call( $self, $env ) {
+
+    $env->{"psgix.greylist.add_rule"} = sub($block, $rate = 0, $type = undef) {
+        $self->_add_rule->( $block, $rate, $type );
+    };
 
     my $ip   = $env->{REMOTE_ADDR};
     my $name = $self->_match->($ip);
