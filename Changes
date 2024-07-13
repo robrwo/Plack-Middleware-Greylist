@@ -7,6 +7,9 @@ Revision history for {{$dist->name}}
   [Enhancements]
   - Internal code was changed to use newer Perl syntax features.
 
+  [Documentation]
+  - Update copyright year.
+
 v0.7.2    2023-12-22 10:00:50+00:00 Europe/London
   [Tests]
   - Removed TAP::Formatter::GitHubActions from prerequisites.
