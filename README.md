@@ -158,6 +158,8 @@ block).
 If you customise this, then you need to ensure that the counter resets or expires counts after a set period of time,
 e.g. one minute.  If you use a different time interval, then you may need to adjust the ["retry\_after"](#retry_after) time.
 
+You also need to ensure that the cache is shared between processes.
+
 ## callback
 
 This is a code reference for a function that is called when rate limits are exceeded. The function is called with a hash
