@@ -335,7 +335,7 @@ sub prepare_app($self) {
 
     $self->rules( my $rules = {} );
 
-    $self->_add_rule( sub( $block, $rate, $type ) {
+    $self->_add_rule( sub( $block, $rate, $type, $expiry = undef ) {
 
         state $codes = { whitelist => -1, allowed => -1, blacklist => 0, rejected => 0, norobots => 0 };
         state $types = { ip => '', netblock => 1 };
@@ -350,7 +350,7 @@ sub prepare_app($self) {
             $rate = $codes->{$rate};
         }
 
-        $rules->{$block} = [ $rate, $mask ];
+        $rules->{$block} = [ $rate, $mask, $expiry ];
         $match->add( $block => $block );
 
     });
@@ -387,8 +387,8 @@ sub prepare_app($self) {
 
 sub call( $self, $env ) {
 
-    $env->{"psgix.greylist.add_rule"} = sub($block, $rate = 0, $type = undef) {
-        $self->_add_rule->( $block, $rate, $type );
+    $env->{"psgix.greylist.add_rule"} = sub( $block, $rate = 0, $type = undef, $expiry = undef ) {
+        $self->_add_rule->( $block, $rate, $type, $expiry );
     };
 
     my $ip   = $env->{REMOTE_ADDR};
@@ -401,6 +401,10 @@ sub call( $self, $env ) {
         if ( $env->{PATH_INFO} eq "/robots.txt" ) {
             $rate = ONE_MINUTE;    # one request/second
         }
+    }
+
+    if ( my $expiry = $rule->[2] ) {
+        $rate = -2 if time > $expiry;
     }
 
     if ( $rate >= 0 ) {
