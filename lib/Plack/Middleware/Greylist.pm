@@ -21,7 +21,7 @@ use Time::Seconds         qw/ ONE_MINUTE /;
 
 use experimental qw/ postderef signatures /;
 
-our $VERSION = 'v0.8.0';
+our $VERSION = 'v0.8.1';
 
 =head1 SYNOPSIS
 
