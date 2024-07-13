@@ -322,7 +322,7 @@ sub prepare_app($self) {
 
     my $match = Net::IP::LPM->new;
 
-    $self->_match( sub { $match->lookup(@_) } );
+    $self->_match( sub($ip) { $match->lookup($ip) } );
 
     my @blocks;
 
