@@ -1,6 +1,10 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Enhancements]
+  - Added `psgix.greylist.add_rule` callback to allow rules to be added by other middleware.
+
+  - Added optional expiration time for rate limit rules.
 
 v0.8.1    2024-07-15 13:23:22+01:00 Europe/London
   [Bug Fixes]
