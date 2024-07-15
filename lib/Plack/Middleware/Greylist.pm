@@ -2,7 +2,7 @@ package Plack::Middleware::Greylist;
 
 # ABSTRACT: throttle requests with different rates based on net blocks
 
-# RECOMMEND PREREQ: Cache::FastMmap
+# RECOMMEND PREREQ: Cache::FastMmap 1.52
 # RECOMMEND PREREQ: Ref::Util::XS
 
 use v5.20;
@@ -305,6 +305,7 @@ sub prepare_app($self) {
         $config->{share_file} = "$file";
 
         load Cache::FastMmap;
+        die "Cache::FastMmap version 1.52 or newer is required" if Cache::FastMmap->VERSION < 1.52;
 
         my $cache = Cache::FastMmap->new(%$config);
 

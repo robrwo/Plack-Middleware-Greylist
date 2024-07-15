@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Bug Fixes]
+  - Specified a minimum version of Cache::FastMmap.
+
   [Documentation]
   - Add a note that the cache must be shared between processes.
 
