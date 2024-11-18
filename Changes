@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Toolchain]
+  - Improved dist.ini.
 
 v0.8.1    2024-07-15 13:23:22+01:00 Europe/London
   [Bug Fixes]
