@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  [Tests]
+  - Added author tests for CVEs.
+
   [Toolchain]
   - Improved dist.ini.
 

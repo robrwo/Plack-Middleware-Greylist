@@ -15,12 +15,17 @@ requires "warnings" => "0";
 recommends "Cache::FastMmap" => "1.52";
 recommends "Ref::Util::XS" => "0";
 
+on 'build' => sub {
+  requires "ExtUtils::MakeMaker" => "7.22";
+  requires "Module::Metadata" => "1.000015";
+};
+
 on 'test' => sub {
   requires "Cache::FastMmap" => "1.52";
   requires "File::Spec" => "0";
   requires "HTTP::Request::Common" => "0";
   requires "IO::Scalar" => "0";
-  requires "Module::Metadata" => "0";
+  requires "Module::Metadata" => "1.000015";
   requires "Path::Tiny" => "0";
   requires "Plack::Builder" => "0";
   requires "Plack::Middleware::ContentLength" => "0";
@@ -44,6 +49,7 @@ on 'configure' => sub {
 
 on 'develop' => sub {
   requires "Pod::Coverage::TrustPod" => "0";
+  requires "Test::CVE" => "0.08";
   requires "Test::DistManifest" => "0";
   requires "Test::EOF" => "0";
   requires "Test::EOL" => "0";
