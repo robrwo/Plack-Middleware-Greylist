@@ -4,6 +4,8 @@ Revision history for {{$dist->name}}
   [Documentation]
   - Added security policy.
 
+  - Updated copyright year.
+
   [Tests]
   - Added author tests for CVEs.
 

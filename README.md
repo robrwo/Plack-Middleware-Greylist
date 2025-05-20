@@ -292,7 +292,7 @@ Gabor Szabo <gabor@szabgab.com>
 
 # COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2022-2024 by Robert Rothenberg.
+This software is Copyright (c) 2022-2025 by Robert Rothenberg.
 
 This is free software, licensed under:
 
