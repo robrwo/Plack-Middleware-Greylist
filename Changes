@@ -7,7 +7,7 @@ Revision history for {{$dist->name}}
   - Updated copyright year.
 
   [Tests]
-  - Added author tests for CVEs.
+  - Added more author tests.
 
   [Toolchain]
   - Improved dist.ini.
